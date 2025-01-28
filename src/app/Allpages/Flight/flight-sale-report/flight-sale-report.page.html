@@ -1,0 +1,272 @@
+<ion-app>
+  <ion-content>
+    <ng-container>
+      <ng-container>
+
+        <ion-row class="ion-padding-top s-bar">
+          <ion-col size-sm="12" size-xs="12" size-md="2" size-lg="2" size-xl="2">
+          </ion-col>
+          <ion-col size-sm="12" size-xs="12" size-md="8" size-lg="8" size-xl="8">
+            <ion-row style=" padding-top: 10px;">
+
+              <ion-col size-sm="12" size-xs="12" size-md="4" size-lg="4" size-xl="4">
+                <fieldset>
+                  <legend>
+                    <ion-icon name="calendar-outline"></ion-icon> From
+                  </legend>
+                  <input type="date" [max]="maxDate" [(ngModel)]="from">
+                </fieldset>
+              </ion-col>
+
+              <ion-col size-sm="12" size-xs="12" size-md="4" size-lg="4" size-xl="4">
+                <fieldset>
+                  <legend>
+                    <ion-icon name="calendar-outline"></ion-icon> To
+                  </legend>
+                  <input type="date" [max]="maxDate" [(ngModel)]="to">
+                </fieldset>
+              </ion-col>
+              <ion-col size-sm="12" size-xs="12" size-md="4" size-lg="4" size-xl="4">
+                <button class="submit-btn" type="submit" (click)="apiHit()">
+                  Sale report</button>
+              </ion-col>
+            </ion-row>
+
+            <hr style="width:50%; text-align:left; margin: left 1px;">
+
+          </ion-col>
+        </ion-row>
+
+
+        <ion-row style="padding: 0px;">
+          <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="12">
+
+            <div *ngIf="spinner">
+              <ion-item>
+                <h4  style="margin: 5rem; left: 40rem; position: absolute; color: seagreen;">LOADING...</h4>
+                <ion-spinner style="margin: 15rem; left: 40rem; position: absolute; color: seagreen;" name="circular"></ion-spinner>
+              </ion-item>
+            </div>
+
+            <ion-badge color="tertiary" class="ionp" style="cursor: pointer;float: right;margin: 5px 20px 0px 0px;"
+              (click)="exportexcel()">
+              <img src="https://img.icons8.com/material-outlined/12/ffffff/download--v1.png" /> Download Excel
+            </ion-badge>
+
+            <table id="tab3" class="table">
+              <thead class="thead">
+                <tr>
+                  <th class="padding th">
+                    #
+                  </th>
+                  <th class="padding th">
+                    Adt
+                  </th>
+                  <th class="padding th">
+                    Agent Id
+
+                  </th>
+                  <th class="padding th">
+                    Booking Id (Alias id)
+                  </th>
+                  <th class="padding th">
+                    Apnr
+                  </th>
+                  <th class="padding th">
+                    BillDate
+                  </th>
+                  <th class="padding th">
+                    BookedBy
+                  </th>
+
+                  <th class="padding th">
+                    CabinClass
+                  </th>
+                  <th class="padding th">
+                    Chd
+
+                  </th>
+                  <th class="padding th">
+                    Deal CashBackDis
+                  </th>
+                  <th class="padding th">
+                    Deal Discount
+                  </th>
+                  <th class="padding th">
+                    Deal MealDis
+                  </th>
+                  <th class="padding th">
+                    Deal PromoDis
+                  </th>
+                  
+                  <th class="padding th">
+                    DealRate BasicDealRate
+                  </th>
+                  <th class="padding th">
+                    DealRate MealDealRate
+                  </th>
+                  <th class="padding th">
+                    DealRate PsfDealRate
+                  </th>
+                  <th class="padding th">
+                    DealRate YqDealRate
+                  </th>
+                  <th class="padding th">
+                    DepDate
+                  </th>
+
+                  <th class="padding th">
+                    FCode
+                  </th>
+                  <th class="padding th">
+                    FareClass
+                  </th>
+                  <th class="padding th">
+                    GPnr
+                  </th>
+                  <th class="padding th">
+                    Gst
+                  </th>
+
+                  <th class="padding th">
+                    Id
+                  </th>
+                  <th class="padding th">
+                    Inf
+                  </th>
+                  <th class="padding th">
+                    InvoiceId
+                  </th>
+                  <th class="padding th">
+                    NetFare
+                  </th>
+                  <th class="padding th">
+                    Passengers BaggageAmt
+                  </th>
+                  <th class="padding th">
+                    Passengers Basic
+                  </th>
+                  <th class="padding th">
+                    Passengers FName
+                  </th>
+                  <th class="padding th">
+                    Passengers LName
+                  </th>
+                  <th class="padding th">
+                    Passengers MealAmt
+                  </th>
+                  <th class="padding th">
+                    Passengers PaxType
+                  </th>
+                  <th class="padding th">
+                    Passengers SF
+                  </th>
+                  <th class="padding th">
+                    Passengers SeatAmt
+                  </th>
+                  <th class="padding th">
+                    Passengers Taxes
+                  </th>
+                  <th class="padding th">
+                    Passengers Tktno
+                  </th>
+                  <th class="padding th">
+                    Passengers Yq
+                  </th>
+
+                  <th class="padding th">
+                    PccAlias
+                  </th>
+                  <th class="padding th">
+                    Sector
+                  </th>
+                  <th class="padding th">
+                    Tds
+                  </th>
+
+                  <th class="padding th">
+                    TotalDiscount
+                  </th>
+                  <th class="padding th">
+                    TotalFare
+                  </th>
+                  <th class="padding th">
+                    TotalSF
+                  </th>
+
+                  <th class="padding th">
+                    TransId
+                  </th>
+                  <th class="padding th">
+                    Trip
+                  </th>
+
+                </tr>
+              </thead>
+
+
+              <tbody>
+                <tr *ngFor="let d of resultArr, index as i" class="hvr">
+                  <td class="td">{{i+1}}</td>
+                  <td class="td">{{d.Adt}}</td>
+                  <td class="td">{{d.Agentid}}</td>
+                  <td class="td" style="color: rgb(255, 0, 0); cursor: pointer"> <b>{{d.AliasId}}</b> </td>                  
+                  <td class="td">{{d.Apnr}}</td>
+                  <td class="td">{{d.BillDate}}</td>
+                  <td class="td">{{d.BookedBy}}</td>
+                  <td class="td">{{d.CabinClass}}</td>
+                  <td class="td">{{d.Chd}}</td>
+                  <td class="td">{{d.Deal.CashBackDis}}</td>
+                  <td class="td">{{d.Deal.Discount}}</td>
+                  <td class="td">{{d.Deal.MealDis}}</td>
+                  <td class="td">{{d.Deal.PromoDis}}</td>
+
+                  <td class="td">{{d.DealRate.BasicDealRate}}</td>
+                  <td class="td">{{d.DealRate.MealDealRate}}</td>
+                  <td class="td">{{d.DealRate.PsfDealRate}}</td>
+                  <td class="td">{{d.DealRate.YqDealRate}}</td>
+
+                  <td class="td">{{d.DepDate}}</td>
+                  <td class="td">{{d.FCode}}</td>
+                  <td class="td">{{d.FareClass}}</td>
+                  <td class="td">{{d.GPnr}}</td>
+                  <td class="td">{{d.Gst}}</td>
+                  <td class="td">{{d.Id}}</td>
+
+                  <td class="td">{{d.Inf}}</td>
+                  <td class="td">{{d.InvoiceId}}</td>
+                  <td class="td">{{d.NetFare}}</td>
+                                    
+                  <td class="td">{{d.Passengers[0].BaggageAmt}}</td>
+                  <td class="td">{{d.Passengers[0].Basic}}</td>
+                  <td class="td">{{d.Passengers[0].FName}}</td>
+                  <td class="td">{{d.Passengers[0].LName}}</td>
+                  <td class="td">{{d.Passengers[0].MealAmt}}</td>
+                  <td class="td">{{d.Passengers[0].PaxType}}</td>
+                  <td class="td">{{d.Passengers[0].SF}}</td>
+                  <td class="td">{{d.Passengers[0].SeatAmt}}</td>
+                  <td class="td">{{d.Passengers[0].Taxes}}</td>
+                  <td class="td">{{d.Passengers[0].Tktno}}</td>
+                  <td class="td">{{d.Passengers[0].Yq}}</td>
+
+                  <td class="td"><b>{{d.PccAlias}}</b></td>
+                  <td class="td"><b>{{d.Sector}}</b></td>
+                  <td class="td"><b>{{d.Tds}}</b></td>
+                  <td class="td"><b>{{d.TotalDiscount}}</b></td>
+                  <td class="td"><b>{{d.TotalFare}}</b></td>
+                  <td class="td"><b>{{d.TotalSF}}</b></td>
+                  <td class="td"><b>{{d.TransId}}</b></td>
+                  <td class="td"><b>{{d.Trip}}</b></td>                 
+
+                </tr>
+              </tbody>
+            </table>
+
+          </ion-col>
+        </ion-row>
+      </ng-container>
+
+    </ng-container>
+
+  </ion-content>
+</ion-app>
