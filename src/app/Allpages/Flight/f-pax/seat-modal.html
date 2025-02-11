@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Select Seats</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="seat-selection-container">
+    <ol class="cabin fuselage">
+      <li class="row row--1">
+        <ol class="seats" *ngFor="let i of rangei">
+          <li class="seat" *ngFor="let j of rangej">
+            <button
+              [ngStyle]="{'background-color': (Seatsdata1.attr[i][j].selected ?'red' :  null ) }"
+              *ngIf="seats[i][j]?.Avlt"
+              id="{{ i }}{{ j }}a"
+              class="seat"
+              (click)="counter(seats[i][j]?.SeatCode); Seatsdata1.attr[i][j].selected = !Seatsdata1.attr[i][j].selected">
+              {{seats[i][j]?.SeatCode}}
+              <div class="seat-price">₹ {{seats[i][j]?.Price}}</div>
+            </button>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" (click)="dismiss()">
+      Confirm Selection
+    </ion-button>
+  </ion-toolbar>
+</ion-footer> 

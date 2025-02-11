@@ -1168,3 +1168,41 @@ ol {
   margin-right: 10px;
   font-weight: 400;
 }
+
+.seat-selection-modal {
+  --height: 90%;
+  --width: 90%;
+  
+  .seat-selection-container {
+    padding: 16px;
+    
+    .plane {
+      margin: 20px auto;
+      max-width: 500px;
+      
+      .cockpit {
+        text-align: center;
+        padding: 12px;
+        background: #213d77;
+        border-radius: 20px 20px 0 0;
+        
+        h2 {
+          color: white;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+.selected-seats-summary {
+  padding: 10px;
+  
+  h6 {
+    margin: 0 0 10px 0;
+  }
+  
+  ion-chip {
+    margin: 5px;
+  }
+}

@@ -733,108 +733,26 @@
                   <ion-row>
                     <ion-col size-sm="12" size-xs="12" size-md="12" size-lg="12" size-xl="12">
                       <h5 class="pax-Head">
-
                         <ion-icon name="apps"></ion-icon> SEAT SELECTION <font color="#525252"> (Optional) </font>
-
-                        <ion-icon name="add-circle-outline"
-                          style="float: right; font-size: 25px;cursor: pointer; color: red;" *ngIf="!isseat"
-                          (click)="axilary()"></ion-icon>
-                        <ion-icon name="close-circle-outline"
-                          style="float: right; font-size: 25px;cursor: pointer; color: red;" *ngIf="isseat"
-                          (click)="axilary()"></ion-icon>
+                        <ion-button fill="clear" (click)="openSeatSelection()" style="float: right">
+                          <ion-icon name="add-circle-outline" *ngIf="!isseat"></ion-icon>
+                          <ion-icon name="close-circle-outline" *ngIf="isseat"></ion-icon>
+                        </ion-button>
                       </h5>
                     </ion-col>
-
-                    <ion-col size-sm="12" *ngIf="isseat" size-xs="12" size-md="12" size-lg="12" size-xl="12"
-                      style="background-color: white;">
-                      <div class="plane">
-                        <div class="cockpit">
-                          <h1>{{slt_flt.Itinerary[0].FName}}</h1>
-                        </div>
-                        <div class="exit exit--front fuselage">
-
-                        </div>
-
-                        <ol class="cabin fuselage">
-                          <li class="row row--1">
-                            <ol class="seats" *ngFor="let i of rangei">
-                              <li class="seat" *ngFor="let j of rangej">
-
-                                <button
-                                  [ngStyle]="{'background-color': (Seatsdata1.attr[i][j].selected ?'red' :  null ) }"
-                                  *ngIf="seats[i][j]?.Avlt" id="{{ i }}{{ j }}a" class="seat" (click)="
-                      Seatsdata1.attr[i][j].selected
-                          ? (Seatsdata1.attr[i][j].selected = !Seatsdata1.attr[i][j].selected)
-                          : !Seatsdata1.maxReached
-                          ? (Seatsdata1.attr[i][j].selected = !Seatsdata1.attr[i][j].selected)
-                          : '';
-                        counter(seats[i][j]?.SeatCode)
-                      ">
-                                  {{seats[i][j]?.SeatCode}}
-                                </button>
-                                <span style="color: green;font-size: 10px;" *ngIf="seats[i][j]?.Avlt"> ₹
-                                  {{seats[i][j]?.Price}}
-                                </span>
-                              </li>
-
-
-                            </ol>
-                          </li>
-                        </ol>
-
-
-
-
-
-                        <div class="exit exit--back fuselage">
-
-                        </div>
-                      </div>
-                    </ion-col>
-                    <ion-col size-sm="12" *ngIf="isseat" size-xs="12" size-md="12" size-lg="12" size-xl="12"
-                      style="background-color: white;">
-                      <div class="plane" *ngIf="totst>1?true:false">
-                        <div class="cockpit">
-                          <h1>{{slt_flt.Itinerary[0].FName}}</h1>
-                        </div>
-                        <div class="exit exit--front fuselage">
-
-                        </div>
-
-                        <ol class="cabin fuselage">
-                          <li class="row row--1">
-                            <ol class="seats" *ngFor="let i of rangei1">
-                              <li class="seat" *ngFor="let j of rangej1">
-                                <button
-                                  [ngStyle]="{'background-color': (Seatsdata2.attr[i][j].selected ?'red' :  null ) }"
-                                  *ngIf="seats2[i][j]?.Avlt" id="{{ i }}{{ j }}a" class="seat" (click)="
-                    Seatsdata2.attr[i][j].selected
-                        ? (Seatsdata2.attr[i][j].selected = !Seatsdata2.attr[i][j].selected)
-                        : !Seatsdata2.maxReached
-                        ? (Seatsdata2.attr[i][j].selected = !Seatsdata2.attr[i][j].selected)
-                        : '';
-                      counter2(seats2[i][j]?.SeatCode)
-                    ">{{seats2[i][j]?.SeatCode}}</button>
-                              </li>
-
-
-                            </ol>
-                          </li>
-                        </ol>
-
-
-
-
-
-                        <div class="exit exit--back fuselage">
-
-                        </div>
+                    
+                    <!-- Show selected seats summary -->
+                    <ion-col size="12" *ngIf="seats && updateSelectedSeats()?.length > 0">
+                      <div class="selected-seats-summary">
+                        <h6>Selected Seats:</h6>
+                        <ion-chip *ngFor="let seat of updateSelectedSeats()">
+                          {{seat}}
+                        </ion-chip>
                       </div>
                     </ion-col>
                   </ion-row>
                 </ion-card>
               </ion-col>
-
             </ion-row>
             <!-- SEAT SEALECTION END -->
 
