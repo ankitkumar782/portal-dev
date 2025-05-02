@@ -11,48 +11,42 @@
                 "active": "true",
                 "title": "Search",
                 "url": "fsearch",
-                "icon": "search",
-                "Eicon": "chevron-forward"
+                "icon": "search-outline"
             },
             {
                 "sid": "2",
                 "active": "false",
                 "title": "Booking History",
                 "url": "fbookinghistory",
-                "icon": "book",
-                "Eicon": "chevron-forward"
+                "icon": "book-outline"
             },
             {
                 "sid": "3",
                 "active": "false",
                 "title": "Cancellation History",
                 "url": "fcancellationhistory",
-                "icon": "trash",
-                "Eicon": "chevron-forward"
+                "icon": "close-circle-outline"
             },
             {
                 "sid": "4",
                 "active": "false",
                 "title": "Refund History",
                 "url": "frefundhistory",
-                "icon": "repeat",
-                "Eicon": "chevron-forward"
+                "icon": "refresh-outline"
             },
             {
                 "sid": "5",
                 "active": "false",
                 "title": "Transactions",
                 "url": "ftransactions",
-                "icon": "swap-horizontal",
-                "Eicon": "chevron-forward"
+                "icon": "receipt-outline"
             },
             {
                 "sid": "6",
                 "active": "false",
                 "title": "Payment History",
                 "url": "fpaymenthistory",
-                "icon": "cash",
-                "Eicon": "chevron-forward"
+                "icon": "cash-outline"
             },
             {
                 "sid": "7",
@@ -208,7 +202,7 @@
         "id": "4",
         "title": "My Account",
         "url": "myaccount",
-        "icon": "person-circle"
+        "icon": "person-outline"
     },
     {
         "id": "5",

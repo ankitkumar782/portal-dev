@@ -219,39 +219,13 @@ pax=[]
   reasonarr = []
   index;
 
-bookrte(){
-  let obj={
-    "P_TYPE": "API",
-    "R_TYPE": "FLIGHT",
-    "R_NAME": "FlightBookingResponse",
-    "R_DATA": {
-        "TYPE": "PNRRES",
-        "BOOKING_ID": this.resultArr[0].BookingId,
-        "TRACE_ID": ""
-    },
-    "AID": this.Agentid,
-    "MODULE": "B2B",
-    "IP": "182.73.146.154",
-    "TOKEN": this.Token,
-    "ENV": this.env,
-    "Version": "1.0.0.0.0.0"
-  }
-  console.log(obj)
-  this.pstService.POST('/FReport', obj).subscribe((res1) => {
-    this.response= res1
-   
 
-  },
-    (err) => {
-      console.log(err)
-    })
-}
 
-  response:any
+  
   clickkr(){
     
-    this.bookrte()
-    console.log(this.response)
+   
+    let response=this.resultArr[this.index].Sector[0].DDate
   
     // let depdate=this.bkn_rt.Param.Sector[0].DDate
     
@@ -271,7 +245,7 @@ bookrte(){
     let sec= {
       "Src": b[0],
       "Des": b[1],
-      "DDate": this.response,
+      "DDate": response,
       "PAX": paxdeatails
   }
 

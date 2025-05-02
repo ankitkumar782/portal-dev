@@ -1,6 +1,9 @@
 .cfont{
   font-family: "poppins";
 }
+.header_logo2{
+  cursor: pointer;
+}
 @media only screen and (max-width: 768px) {
 
   .for-app{
@@ -231,7 +234,7 @@ ion-icon{
   .header_logo2{
       // height: 20px;
       width: 90%;
-  
+    cursor: pointer;
   }
   .h-Box{
     display: flex;

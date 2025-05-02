@@ -181,8 +181,9 @@ export class FBookingHistoryPage implements OnInit {
     this.ShowCancelModel = false;
     this.showcharges = false
     this.showstatus = false
-    this.showtable=false
+    this.showtable=false  
     this.ShowModelDATA = true;
+    window.location.reload();
     // console.log("Cancel button pressed");
   }
   showstatus = false
