@@ -264,7 +264,7 @@ export class SearchbyPage implements OnInit {
   }
   traceid
   indexHidden = false
-  full=true;
+  full = true;
   select() {
     let res = {}
     console.log(this.remarksCommit.value)
@@ -284,8 +284,8 @@ export class SearchbyPage implements OnInit {
     let cance
     console.log(this.isCheckedArr)
     this.isCheckedArr.forEach((ele, ind) => {
-      if(ele==true){
-        this.full=false
+      if (ele == true) {
+        this.full = false
       }
     })
     if (!this.full) {
@@ -597,43 +597,66 @@ export class SearchbyPage implements OnInit {
   onCheckboxChange(index: number, isChecked: boolean): void {
     console.log(`Checkbox at index ${index} is now ${isChecked ? 'checked' : 'unchecked'}`);
     console.log(this.isCheckedArr)
-    this.clickkr()
+    this.selected_pax()
   }
+
   index
-  clickkr() {
-
-
-    let temp = this.resultArr[this.index].OI
-
-    let ddate = temp.split("|");
-    console.log(ddate)
-    let response = ddate[1].split(",")[0]
-
-
-    // let depdate=this.bkn_rt.Param.Sector[0].DDate
-
-    let b = this.resultArr[this.index].Sector.split(",")
-
-    let paxdeatails = []
-    this.isCheckedArr.forEach((ele, ind) => {
-      if (ele == true) {
-        paxdeatails.push({
-          "TTL": "MR",
-          "PAX_TYPE": this.resultArr[this.index].PaxName[ind].PaxType,
-          "FNAME": this.resultArr[this.index].PaxName[ind].FName,
-          "LNAME": this.resultArr[this.index].PaxName[ind].LName
-        })
-      }
-    })
-    this.sec = {
-      "Src": b[0],
-      "Des": b[1],
-      "DDate": response,
-      "PAX": paxdeatails
+  
+  selected_pax() {
+    const row = this.resultArr[this.index];
+    if (!row) {
+      alert("Invalid selection.");
+      return;
     }
-
-    console.log(this.sec)
+    // --- Safe Sector Parsing ---
+    const sector = row.Sector || "";
+    var src_des_arr ;
+    if(sector.includes(",")){
+      src_des_arr=sector.split(',')
+    }
+    else{
+      alert("Unable to get the sector . Pls contact call center")
+      return 
+    }
+    const Src = src_des_arr[0] || "";
+    const Des = src_des_arr[1] || "";
+    // --- Safe DDate Parsing ---
+    const OI = row.OI || "";
+    let final_ddate = "";
+    if (OI.includes("|")) {
+      let temp = OI.split("|");
+      if (temp[1]) {
+        final_ddate = temp[1].split(",")[0] || "";
+      }
+    }
+    else{
+      alert("Unable to get Departure date .pls contact Call center")
+      return
+    }
+    // --- Passengers ---
+    let paxdeatails = [];
+    this.isCheckedArr.forEach((ele, ind) => {
+      if (ele && row.PaxName[ind]) {
+        paxdeatails.push({
+          TTL: "MR",
+          PAX_TYPE: row.PaxName[ind].PaxType || "",
+          FNAME: row.PaxName[ind].FName || "",
+          LNAME: row.PaxName[ind].LName || ""
+        });
+      }
+    });
+    this.sec = {
+      Src,
+      Des,
+      DDate: final_ddate,
+      PAX: paxdeatails
+    };
+    if (!Src || !Des) {
+      alert("Unable to cancel partially. Please contact call center.");
+    }
+    console.log(this.sec);
   }
+
 
   sec
 }
