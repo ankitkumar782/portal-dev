@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../../Services/Crud_Services/post.service';
 import * as XLSX from 'xlsx';
-import { Subject } from 'rxjs';
+// import { Subject } from 'rxjs';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -57,8 +57,11 @@ export class SearchbyPage implements OnInit {
 
   toDate
   fromDate
+  meal;
+  mealamount;
+  seat = [];
+  loader: boolean = false;
   // env: string;
-  isCheckedArr: boolean[] = [];
   constructor(private pstService: PostService) { }
   searchBy() {
     this.FromData = this.searchbydata.value.Datatype;
@@ -96,7 +99,7 @@ export class SearchbyPage implements OnInit {
       "R_DATA": {
         "FromDate": "",
         "ToDate": "",
-        "Env": this.env,
+        "Env": "D",
         "Pnr": this.pnr,
         "FName": this.fname,
         "LName": this.lname,
@@ -113,6 +116,7 @@ export class SearchbyPage implements OnInit {
     console.log(obj)
     this.pstService.POST('/FReport', obj).subscribe((res) => {
       console.log(res)
+
       this.resultArr = res
       this.isCheckedArr = new Array(this.resultArr[0].PaxName.length).fill(false);
 
@@ -168,6 +172,26 @@ export class SearchbyPage implements OnInit {
           })
         })
       })
+      this.test.PaxInfo.Passengers.forEach((ele) => {
+        this.seat.push(ele.Seat)
+        // ele.Seat.forEach((ele)=>{
+        //   this.seat.push(ele.Seat)
+        // })
+        // this.seat.Seat?.forEach((a) => {
+        //   this.seatamount += a.Price
+        //   console.log(a.Price)
+        // })
+
+      })
+
+      this.test.PaxInfo.Passengers?.forEach((ele) => {
+        this.meal = ele
+        this.meal.Meal?.forEach((a) => {
+          this.mealamount += a.Price
+          // console.log(a.Price)
+        })
+
+      })
 
 
 
@@ -215,54 +239,12 @@ export class SearchbyPage implements OnInit {
 
 
   }
-pax=[]
+
   reasonarr = []
-  index;
-
-
-
-  
-  clickkr(){
-    
-   
-    let response=this.resultArr[this.index].Sector[0].DDate
-  
-    // let depdate=this.bkn_rt.Param.Sector[0].DDate
-    
-    let b=this.resultArr[this.index].Sector.split(",")
-    
-    let paxdeatails=[]
-    this.isCheckedArr.forEach((ele,ind)=>{
-      if(ele==true){
-        paxdeatails.push({
-          "TTL": "MR",
-          "PAX_TYPE": this.resultArr[this.index].PaxName[ind].PaxType,
-          "FNAME": this.resultArr[this.index].PaxName[ind].FName,
-          "LNAME": this.resultArr[this.index].PaxName[ind].LName
-      })
-      }
-    })
-    let sec= {
-      "Src": b[0],
-      "Des": b[1],
-      "DDate": response,
-      "PAX": paxdeatails
-  }
-
-  console.log(sec)
-  }
-
-  onCheckboxChange(index: number, isChecked: boolean): void {
-    console.log(`Checkbox at index ${index} is now ${isChecked ? 'checked' : 'unchecked'}`);
-    console.log(this.isCheckedArr)
-    this.clickkr()
-  }
-
-  CancelTicket2(d: any,i:any) {
+  CancelTicket2(d: any, i: any) {
     this.ShowCancelModel = true;
     this.ShowModelDATA = false;
-    this.index=i;
-
+    this.index = i;
     var b = `https://stage1.ksofttechnology.com/api/FReport/ADMIN?P_TYPE=API&R_TYPE=FLIGHT&R_NAME=GetCRList&AID=${this.Agentid}&TOKEN=${this.Token}`
 
     this.pstService.GET(b).subscribe((res) => {
@@ -281,12 +263,13 @@ pax=[]
     this.traceid = d.TransId
   }
   traceid
-
   indexHidden = false
+  full=true;
   select() {
     let res = {}
     console.log(this.remarksCommit.value)
-
+    this.showtable = false
+    this.loader = true
     this.reasonarr.forEach((ele) => {
       if (ele.ReasonCode == this.remarksCommit.value.rescode) {
         res = {
@@ -294,69 +277,109 @@ pax=[]
           "Reason": ele.Reason,
           "Scenarios": ele.Scenarios,
           "IsVoluntary": ele.IsVoluntary,
-          "Remarks": ele.Remarks
+          "Remarks": this.remarksCommit.value.remark
         }
       }
     })
-
-    let cance =
-    {
-      "P_TYPE": "API",
-      "R_TYPE": "FLIGHT",
-      "R_NAME": "CANCEL",
-      "R_DATA": {
-        "ACTION": "CANCEL_CHARGE",
-        "BOOKING_ID": this.cancelBookingId,
-        "CANCEL_TYPE": "FULL_CANCELLATION",
-        "Trace_Id": "",
-        "REASON":res
-      },
-      "AID": this.Agentid,
-      "MODULE": "B2B",
-      "IP": "182.73.146.154",
-      "TOKEN": this.Token,
-      "ENV": this.env,
-      "Version": "1.0.0.0.0.0"
+    let cance
+    console.log(this.isCheckedArr)
+    this.isCheckedArr.forEach((ele, ind) => {
+      if(ele==true){
+        this.full=false
+      }
+    })
+    if (!this.full) {
+      cance = {
+        "P_TYPE": "API",
+        "R_TYPE": "FLIGHT",
+        "R_NAME": "CANCEL",
+        "R_DATA": {
+          "ACTION": "CANCEL_CHARGE",
+          "BOOKING_ID": this.cancelBookingId,
+          "CANCEL_TYPE": "PARTIAL_CANCELLATION",
+          "REASON": res,
+          "SECTORS": [
+            this.sec
+          ],
+          "TRACE_ID": ""
+        },
+        "AID": this.Agentid,
+        "MODULE": "B2B",
+        "IP": "182.73.146.154",
+        "TOKEN": this.Token,
+        "ENV": this.env,
+        "Version": "1.0.0.0.0.0"
+      }
     }
-    console.log(cance);
+    else {
+      cance =
+      {
+        "P_TYPE": "API",
+        "R_TYPE": "FLIGHT",
+        "R_NAME": "CANCEL",
+        "R_DATA": {
+          "ACTION": "CANCEL_CHARGE",
+          "BOOKING_ID": this.cancelBookingId,
+          "CANCEL_TYPE": "FULL_CANCELLATION",
+          "Trace_Id": "",
+          "REASON": res
+        },
+        "AID": this.Agentid,
+        "MODULE": "B2B",
+        "IP": "182.73.146.154",
+        "TOKEN": this.Token,
+        "ENV": this.env,
+        "Version": "1.0.0.0.0.0"
+      }
+    }
 
-    this.pstService.POST('/FCancel', cance).subscribe((res) => {
-      console.log(res)
-      if(res?.Charges?.AirlineCancellationFee){
-        alert("Reason Submitted ")
-        this.showcharges = true
-        this.hideconfirmbutton=true
-        this.showtable = false
-        this.charge=res
-        this.Airlinecharge = res.Charges.AirlineCancellationFee;
-        this.KafilaCharge = res.Charges.ServiceFee;
-        this.CustomerAmount = res.Charges.RefundableAmt;
-        this.airlinerefund = res.Charges.AirlineRefund;
-        this.airlineToken = res.Charges.AirlineToken;
-        this.totalFare = res.Charges.Fare
-        this.flightcode = res.Charges.FlightCode;
-        this.pnrOf = res.Charges.Pnr;
-        this.refundableammo = res.Charges.RefundableAmt;
-        this.serviceCharge = res.Charges.ServiceFee;
-      }
-      else if(res.Status=="Failed"){
-        alert(res.ErrorMessage)
-        location.reload();
-      }
-      else if(res.Status=="PENDING"){
-        this.showcharges = true
-        this.showtable = false
-        this.charge=res
-      }
-      else{
-        alert("Reason Not Submitted")
-        location.reload();
-      }
-    },
-      (err) => {
-        console.log(err)
-        this.wait = true
-      })
+    console.log(cance)
+    // this.pstService.POST('/FCancel', cance).subscribe((res) => {
+    //   console.log(res)
+    //   if(res?.Charges){
+    //     this.loader = false
+    //     alert("Reason Submitted ")
+    //     this.showcharges = true
+    //     this.hideconfirmbutton=true
+    //     this.showtable = false
+    //     this.charge=res
+    //     this.Airlinecharge = res.Charges.AirlineCancellationFee;
+    //     this.KafilaCharge = res.Charges.ServiceFee;
+    //     this.CustomerAmount = res.Charges.RefundableAmt;
+    //     this.airlinerefund = res.Charges.AirlineRefund;
+    //     this.airlineToken = res.Charges.AirlineToken;
+    //     this.totalFare = res.Charges.Fare
+    //     this.flightcode = res.Charges.FlightCode;
+    //     this.pnrOf = res.Charges.Pnr;
+    //     this.refundableammo = res.Charges.RefundableAmt;
+    //     this.serviceCharge = res.Charges.ServiceFee;
+    //   }
+    //   else if(res.Status=="Failed"){
+    //     this
+    //     // alert(res.ErrorMessage)
+    //     // location.reload();
+    //   }
+    //   else if(res.Status=="PENDING"){
+    //     this.loader = false
+    //     this.showcharges = true
+    //     this.showtable = false
+    //     this.charge=res
+    //   }
+    //   else if(res.Result=="unable to cancel."){
+    //     alert(res.Result)
+    //     this.loader = false
+    //     // location.reload();
+    //   }
+    //   else{
+    //     this.loader = false
+    //     alert("Reason Not Submitted")
+    //     // location.reload();
+    //   }
+    // },
+    //   (err) => {
+    //     console.log(err)
+    //     this.wait = true
+    //   })
 
   }
   button = false
@@ -368,6 +391,7 @@ pax=[]
     this.showstatus = false
     this.showtable = false
     this.ShowModelDATA = true;
+    window.location.reload();
     // console.log("Cancel button pressed");
   }
   showstatus = false
@@ -423,12 +447,15 @@ pax=[]
       else if (res.Status == 'Pending') {
         alert(" Pending" + res?.ErrorMessage)
       }
-      else if(res?.R_DATA?.Charges?.IsCanceled) {
+      else if (res?.R_DATA?.Charges?.IsCanceled) {
         alert("pnr cancelled succesfully")
         this.showtable = false;
         this.showcharges = false;
         this.showstatus = false;
-      this.ShowModelDATA = true;
+        this.ShowModelDATA = true;
+      }
+      else {
+        alert("pls contact the call centre")
       }
     },
       (err) => {
@@ -452,7 +479,7 @@ pax=[]
 
     this.cancelBookingId = d.BookingId
 
-    var a = `http://stage1.ksofttechnology.com/api/FReport/ADMIN?P_TYPE=API&R_TYPE=FLIGHT&R_NAME=GetCancelChargeStatus&AID=${this.Agentid}&TOKEN=${this.Token}&DATA=${d.BookingId}`
+    var a = `https://stage1.ksofttechnology.com/api/FReport/ADMIN?P_TYPE=API&R_TYPE=FLIGHT&R_NAME=GetCancelChargeStatus&AID=${this.Agentid}&TOKEN=${this.Token}&DATA=${d.BookingId}`
     console.log(a)
     this.pstService.GET(a).subscribe((res) => {
       console.log(res)
@@ -479,6 +506,8 @@ pax=[]
         this.wait = true
       })
   }
+
+
   statusof2(d) {
     // this.ShowCancelModel = true;
     // this.ShowModelDATA = true;
@@ -493,7 +522,7 @@ pax=[]
     this.pstService.GET(a).subscribe((res) => {
       console.log(res)
       this.statusresponse = res
-      if(this.statusresponse.Status=='PENDING'){
+      if (this.statusresponse.Status == 'PENDING') {
         alert(this.statusresponse.WarningMessage)
       }
       console.log(this.statusresponse.IsCancelled)
@@ -502,7 +531,7 @@ pax=[]
         this.ShowCancelModel = false
         window.location.reload();
       }
-      else if(this.statusresponse.IsCancelled==false){
+      else if (this.statusresponse.IsCancelled == false) {
         alert(`Cancellation Rejected Remark-${this.statusresponse.OI.CancelRemark}`)
 
       }
@@ -563,4 +592,48 @@ pax=[]
     })
 
   }
+  isCheckedArr: boolean[] = [];
+
+  onCheckboxChange(index: number, isChecked: boolean): void {
+    console.log(`Checkbox at index ${index} is now ${isChecked ? 'checked' : 'unchecked'}`);
+    console.log(this.isCheckedArr)
+    this.clickkr()
+  }
+  index
+  clickkr() {
+
+
+    let temp = this.resultArr[this.index].OI
+
+    let ddate = temp.split("|");
+    console.log(ddate)
+    let response = ddate[1].split(",")[0]
+
+
+    // let depdate=this.bkn_rt.Param.Sector[0].DDate
+
+    let b = this.resultArr[this.index].Sector.split(",")
+
+    let paxdeatails = []
+    this.isCheckedArr.forEach((ele, ind) => {
+      if (ele == true) {
+        paxdeatails.push({
+          "TTL": "MR",
+          "PAX_TYPE": this.resultArr[this.index].PaxName[ind].PaxType,
+          "FNAME": this.resultArr[this.index].PaxName[ind].FName,
+          "LNAME": this.resultArr[this.index].PaxName[ind].LName
+        })
+      }
+    })
+    this.sec = {
+      "Src": b[0],
+      "Des": b[1],
+      "DDate": response,
+      "PAX": paxdeatails
+    }
+
+    console.log(this.sec)
+  }
+
+  sec
 }

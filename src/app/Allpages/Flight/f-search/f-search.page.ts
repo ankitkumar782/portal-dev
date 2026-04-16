@@ -24,7 +24,7 @@ export class FSearchPage implements OnInit {
   //   effect: 'flip',
   // }; 
 
-  
+
 
   unsubscribe$: Subject<boolean> = new Subject();
   todayt = new Date(new Date().getTime()).toISOString().split('T')[0];
@@ -33,9 +33,9 @@ export class FSearchPage implements OnInit {
   arp: any
   moreFields: any
   arp_new: any
-  adult = ["SELECT","1", "2", "3", "4", "5", "6", "7", "8", "9"]
-  childrens = ["SELECT","0", "1", "2", "3", "4", "5", "6"]
-  infants = ["SELECT","0", "1", "2", "3", "4", "5", "6"]
+  adult = ["SELECT", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  childrens = ["SELECT", "0", "1", "2", "3", "4", "5", "6"]
+  infants = ["SELECT", "0", "1", "2", "3", "4", "5", "6"]
   F_class = ["First", "Bussiness", "Premium First", "Premium Ecomomy", "Ecomomy (Coach)"]
   F_flights = ["All", "G8", "6E", "SG", "I5", "AI", "9W", "UK", "2T"]
   d_DepCity: any
@@ -44,9 +44,9 @@ export class FSearchPage implements OnInit {
   d_Child = "0";
   d_Infants = "0";
   pax_div = false
-  totalpax=1;
+  totalpax = 1;
   paxDivHide() {
-    this.totalpax= parseInt(this.flightData.value.Adults)
+    this.totalpax = parseInt(this.flightData.value.Adults)
     this.pax_div = !this.pax_div
 
 
@@ -297,27 +297,60 @@ export class FSearchPage implements OnInit {
     if (depApt != arrApt || depApt == "" && arrApt == "") {
 
       if (this.trip_val == 0) {
+        // let data = {
+        //   "Trip": "D1",
+        //   "Adt": this.flightData.value.Adults || 1,
+        //   "Chd": this.flightData.value.Childs || 0,
+        //   "Inf": this.flightData.value.Infants || 0,
+        //   "Sector": [
+        //     {
+        //       "Src": arrApt || "DEL",
+        //       "Des": depApt || "BOM",
+        //       "DDate": latest_date
+        //     }
+        //   ],
+        //   // "PF": this.flightData.value.PFlight || "",
+        //   "PF": "AI",
+        //   "PC": "EC",
+        //   "Routing": "ALL",
+        //   "Ver": "1.0.0.A",
+        //   "Auth": {
+        //     "AgentId": this.agentid,
+        //     "Token": this.Token
+        //   },
+        //   "Env": this.env,
+        //   "Module": "B2B",
+        //   "OtherInfo": {
+        //     "PromoCode": "",
+        //     "FFlight": "",
+        //     "FareType": "",
+        //     "TraceId": "",
+        //     "IsUnitTesting": false,
+        //     "TPnr": false
+        //   }
+
+        // }
         let data = {
           "Trip": "D1",
-          "Adt": this.flightData.value.Adults||1,
-          "Chd": this.flightData.value.Childs||0,
-          "Inf": this.flightData.value.Infants||0,
+         "Adt": this.flightData.value.Adults || 1,
+         "Chd": this.flightData.value.Childs || 0,
+        "Inf": this.flightData.value.Infants || 0,
           "Sector": [
             {
-              "Src": arrApt || "DEL",
-              "Des": depApt || "BOM",
-              "DDate": latest_date
+             "Src": arrApt || "DEL",
+               "Des": depApt || "BOM",
+               "DDate": latest_date
             }
           ],
-          "PF": this.flightData.value.PFlight || "",
-          "PC": this.flightData.value.PClass || "",
-          "Routing": "Direct",
+          "PF": "",
+          "PC": "EC",
+          "Routing": "ALL",
           "Ver": "1.0.0.0",
           "Auth": {
             "AgentId": this.agentid,
-            "Token": this.Token
+         "Token": this.Token
           },
-          "Env": this.env,
+          "Env": "P",
           "Module": "B2B",
           "OtherInfo": {
             "PromoCode": "",
@@ -327,7 +360,6 @@ export class FSearchPage implements OnInit {
             "IsUnitTesting": false,
             "TPnr": false
           }
-
         }
 
         console.log(data)
@@ -340,9 +372,9 @@ export class FSearchPage implements OnInit {
 
         let data = {
           "Trip": "D2",
-          "Adt": this.flightData.value.Adults||1,
-          "Chd": this.flightData.value.Childs||0,
-          "Inf": this.flightData.value.Infants||0,
+          "Adt": this.flightData.value.Adults || 1,
+          "Chd": this.flightData.value.Childs || 0,
+          "Inf": this.flightData.value.Infants || 0,
           "Sector": [
             {
               "Src": depApt || "DEL",

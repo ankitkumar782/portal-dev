@@ -1,5 +1,75 @@
-<ion-app class="for-web">
-  <ion-content>
-    <!-- <app-login-header></app-login-header> -->
-  </ion-content>
-</ion-app>
+<section class="reg-Page">
+  <div class="container">
+    <header>Registration</header>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form">
+
+        <!-- First Section -->
+        <div *ngIf="!isSecondFormActive">
+          <div class="details personal">
+            <span class="title">Personal Details</span>
+            <div class="fields">
+              <div class="input-field" *ngFor="let field of personalFields">
+                <label>{{ field.label }}</label>
+                <input [type]="field.type" [placeholder]="field.placeholder" [(ngModel)]="formData[field.model]"
+                  name="{{ field.model }}" >
+              </div>
+            </div>
+          </div>
+
+          <div class="details ID">
+            <span class="title">Identity Details</span>
+            <div class="fields">
+              <div class="input-field" *ngFor="let field of identityFields">
+                <label>{{ field.label }}</label>
+                <input [type]="field.type" [placeholder]="field.placeholder" [(ngModel)]="formData[field.model]"
+                  name="{{ field.model }}" >
+              </div>
+            </div>
+            <button type="button" class="nextBtn" (click)="goToSecondForm()">
+              <span class="btnText">Next</span>
+              <i class="uil uil-navigator"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Second Section -->
+        <div *ngIf="isSecondFormActive">
+          <div class="details address">
+            <span class="title">Address Details</span>
+            <div class="fields">
+              <div class="input-field" *ngFor="let field of addressFields">
+                <label>{{ field.label }}</label>
+                <input [type]="field.type" [placeholder]="field.placeholder" [(ngModel)]="formData[field.model]"
+                  name="{{ field.model }}" >
+              </div>
+            </div>
+          </div>
+
+          <div class="details family">
+            <!-- <span class="title">Family Details</span>
+            <div class="fields">
+              <div class="input-field" *ngFor="let field of familyFields">
+                <label>{{ field.label }}</label>
+                <input [type]="field.type" [placeholder]="field.placeholder" [(ngModel)]="formData[field.model]"
+                  name="{{ field.model }}" >
+              </div>
+            </div> -->
+            <div class="buttons">
+              <div class="backBtn" (click)="goToFirstForm()">
+                <i class="uil uil-navigator"></i>
+                <span class="btnText">Back</span>
+              </div>
+
+              <button type="submit" class="submit">
+                <span class="btnText">Submit</span>
+                <i class="uil uil-navigator"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</section>

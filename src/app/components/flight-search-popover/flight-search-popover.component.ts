@@ -101,7 +101,7 @@ export class FlightSearchPopoverComponent implements OnInit {
 
   }
   //*****     TRIP SELECTION CODE END     *****
-  
+
   Token: any
   add_flight = true
   pax_arr: FormArray;
@@ -140,7 +140,7 @@ export class FlightSearchPopoverComponent implements OnInit {
     //   let x = f_all_data.Param
     this.depARP = this.sr_str.Sector[0].Src
     this.arrARP = this.sr_str.Sector[0].Des
-    
+
     //   this.d_Adult = x.Adt
     //   this.d_Child = x.Chd
     //   this.d_Infants = x.Inf
@@ -210,10 +210,11 @@ export class FlightSearchPopoverComponent implements OnInit {
               "DDate": this.convertDate(this.flightData.value.D_date)
             }
           ],
-          "PF": this.flightData.value.PFlight,
+          // "PF": this.flightData.value.PFlight,
+          "PF": "",
           "PC": "",
           "Routing": "Direct",
-          "Ver": "1.0.0.0",
+          "Ver": "1.0.0.A",
           "Auth": {
             "AgentId": this.agentid,
             "Token": this.Token
@@ -231,9 +232,9 @@ export class FlightSearchPopoverComponent implements OnInit {
         }
         this.newItemEvent.emit(data);
         localStorage.setItem("flt_srh_sector", JSON.stringify(data));
-        
+
       }
-     
+
     }
     else {
       alert("SAME SECTOR CAN'T BE SEARCH")

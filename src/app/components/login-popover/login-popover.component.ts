@@ -14,7 +14,10 @@ export class LoginPopoverComponent implements OnInit {
   loader = true
   pstService: any;
   env: string;
-  constructor(public popoverController: PopoverController, private post_service: PostService, public rout: Router, public tost_srvice: ToasterService) { }
+  constructor(public popoverController: PopoverController, private post_service: PostService, public rout: Router, public tost_srvice: ToasterService) 
+  { 
+
+  }
 
   ngOnInit() { }
 

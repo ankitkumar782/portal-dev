@@ -428,7 +428,7 @@ export class FOneWayPage implements OnInit {
       "PF": this.sr_str.PF ,
       "PC": this.sr_str.PC,
       "Routing": "Direct",
-      "Ver": "1.0.0.0",
+      "Ver": "1.0.0.A",
       "Auth": {
         "AgentId": this.agentid,
         "Token": this.Token
@@ -472,7 +472,7 @@ export class FOneWayPage implements OnInit {
       "PF": this.sr_str.PF ,
       "PC": this.sr_str.PC,
       "Routing": "Direct",
-      "Ver": "1.0.0.0",
+      "Ver": "1.0.0.A",
       "Auth": {
         "AgentId": this.agentid,
         "Token": this.Token

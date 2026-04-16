@@ -1,48 +1,5 @@
 <ion-content [scrollEvents]="true" (ionScroll)="onScroll($event)">
   <ion-grid>
-    <!-- <ion-row class="srh-stick ion-text-center">
-      <ion-col size-sm="4" size-xs="4" size-md="1" size-lg="1" size-xl="1" class="date_ipt none">
-
-      </ion-col>
-      <ion-col size-sm="3" size-xs="3" size-md="1" size-lg="1" size-xl="1" class="date_ipt pup-clr">
-        <span>One Way</span>
-
-      </ion-col>
-      <ion-col size-sm="4" size-xs="4" size-md="1" size-lg="1" size-xl="1" class="date_ipt pup-clr">
-        {{this.sr_str.Sector[0].Src}} <ion-icon name="arrow-forward"></ion-icon> {{this.sr_str.Sector[0].Des}}
-      </ion-col>
-      <ion-col size-sm="5" size-xs="5" size-md="1" size-lg="1" size-xl="1" class="date_ipt pup-clr">
-        {{this.sr_str.Sector[0].DDate|date:'longDate'}}
-      </ion-col>
-      <ion-col size-sm="3" size-xs="3" size-md="1" size-lg="1" size-xl="1" class="date_ipt pup-clr">
-        <span *ngIf="!this.sr_str.PC">Economy</span>
-        <span *ngIf="this.sr_str.PC">{{this.sr_str.PC}}</span> Class
-      </ion-col>
-      <ion-col size-sm="3" size-xs="3" size-md="1" size-lg="1" size-xl="1" class="date_ipt pup-clr">
-        <span *ngIf="!this.sr_str.PF">All Type</span>
-        <span *ngIf="this.sr_str.PF">{{this.sr_str.PF}} Flight</span>
-      </ion-col>
-      <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1" size-xl="1" class="date_ipt pup-clr">
-        <span *ngIf="this.sr_str.Adt>'0'">{{this.sr_str.Adt}} Adult</span>
-      </ion-col>
-      <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1" size-xl="1" class="date_ipt pup-clr">
-        <span *ngIf="this.sr_str.Chd>'0'"> {{this.sr_str.Chd}} Child</span>
-        <span *ngIf="this.sr_str.Chd=='0'">0 Child</span>
-      </ion-col>
-      <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1" size-xl="1" class="date_ipt pup-clr">
-        <span *ngIf="this.sr_str.Inf>'0'"> {{this.sr_str.Inf}} Infant</span>
-        <span *ngIf="this.sr_str.Inf=='0'"> 0 Infant</span>
-      </ion-col>
-      <ion-col size-sm="12" size-xs="12" size-md="2" size-lg="2" size-xl="2" class="date_ipt ">
-        <button class="mdfy-srh pup-bg-clr" (click)="m_show=!m_show">Modify Search</button>
-      </ion-col>
-      <ion-col size-sm="12" size-xs="12" size-md="1" size-lg="1" size-xl="1" class="date_ipt none">
-
-      </ion-col>
-    </ion-row> -->
-
-    <!-- <ion-row *ngIf="!m_show" style="background-color: white;border-bottom: 1px solid #445f99; padding: 10px 0px; "> -->
-
 
     <app-flight-search-popover *ngIf="!m_show" (newItemEvent)="addItem($event)" [arp_show]="arp_show"
       (callFn)="test($event)">
@@ -394,6 +351,7 @@
                         <span class="F_NAME"><b>{{y.Itinerary[0].FName}}</b></span><br>
                         <span class="F-CODE">{{y.Itinerary[0].FCode}}-{{y.Itinerary[0].FNo}}</span><br>
                         <span class="F-ALIAS">{{y.Offer.Msg}}</span>
+                        <span class="F-ALIAS">{{y.Alias}}</span>
 
                       </div>
                     </ion-col>
@@ -459,6 +417,12 @@
                         <span style="color: green; font-size: 11px;" *ngIf="fare_diff_show"> =
                           <b>₹ {{fare_chk_res.NETFARE}}</b>
                         </span>
+
+
+                        <span style="color: green; font-size: 11px;" *ngIf="fare_diff_show"> =
+                          <b>₹ {{fare_chk_res.NETFARE}}</b>
+                        </span>
+
 
                       </span>
 
